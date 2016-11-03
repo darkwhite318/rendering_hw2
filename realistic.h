@@ -10,7 +10,7 @@
 #include "paramset.h"
 #include "film.h"
 
-struct LensSet{
+struct LensKit{
 
 	float radius;
 	float axpos;
@@ -28,6 +28,7 @@ public:
 						float sclose, float filmdistance, float aperture_diameter, string specfile,
 						float filmdiag, Film *film);
 	float GenerateRay(const CameraSample &sample, Ray *) const;
+	void readFile(string fileName);
   
 private:
 	// RealisticCamera Public Methods
@@ -36,6 +37,7 @@ private:
 	float filmdistance;
 	float aperture_diameter;
 	float filmdiag;
+	vector<LensKit> lensKitSet;
 
 };
 

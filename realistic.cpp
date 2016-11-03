@@ -1,12 +1,10 @@
 
 #include "stdafx.h"
 #include "cameras/realistic.h"
-#include <fstream>
 #include <iostream>
-#include <string>
-#include <vector>
+#include <fstream>
 
-using namespace std;
+
 
 RealisticCamera::RealisticCamera(const AnimatedTransform &cam2world,
 				 float hither, float yon, 
@@ -21,6 +19,8 @@ RealisticCamera::RealisticCamera(const AnimatedTransform &cam2world,
 	this->aperture_diameter = aperture_diameter;
 	this->filmdiag = filmdiag;
 
+	readFile(specfile);
+
 
    // YOUR CODE HERE -- build and store datastructures representing the given lens
    // and film placement.
@@ -30,23 +30,32 @@ RealisticCamera::RealisticCamera(const AnimatedTransform &cam2world,
 
 }
 
-void RealisticCamera::readFile(string fileName){
+
+void RealisticCamera::readFile(string fileName){	
 	
-	std::ifstream inFile(fileName);
+	std::ifstream inFile (fileName.c_str());
 	string line;
 
 	while(std::getline(inFile,line)){
 		
 		if(line[0] == '#')
-			return continue;
+			continue;
 
-		float radius, axpos, n, aperture;
 		else{
-			if()
-			
+			float radius, axpos, n, aperture;
+			if(sscanf(line.c_str(),"%f %f %f %f",&radius, &axpos, &n, &aperture)>4){
+				std::cerr<<fileName<<" not found."<<std::endl;
+				exit(1);
+			}
+
+			LensKit lens = {radius, axpos, n, aperture};
+			lensKitSet.push_back(lens);			
 		}
 	}
+	inFile.close();
+	
 }
+
 
 
 
